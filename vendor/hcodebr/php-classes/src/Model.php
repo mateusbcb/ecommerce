@@ -33,7 +33,7 @@
 			
 		}
 		
-		public function setValues{
+		public function setValues(){
 			
 			return $this->values;
 			
