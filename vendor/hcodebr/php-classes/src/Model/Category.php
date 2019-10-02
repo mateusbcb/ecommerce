@@ -27,6 +27,8 @@
 		));
 		
 		$this->setData($results[0]);
+		
+		Category::upadateFile();
 			
 	}
 	
@@ -49,6 +51,22 @@
 		$sql->qury("DELETE FROM tb_categories WHERE idcategory = :idcategory", array(
 			":idcategory"=>$this->getidcategory()
 		));
+		
+		Category::upadateFile();
+	}
+	
+	public static function updateFile(){
+			
+		$categories = Category::listAll();
+		
+		$html[];
+		
+		foreach($categories as $row){
+			
+			array_push($row, '<li><a href="/categories/'.$row['idcategory'].'">' . $row['descategory'] . '</a></li>');
+			
+			file_put_contents($_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "views" . DIRECTORY_SEPARATOR . "categories-menu.html", inplode('', $html));
+		}
 		
 	}
 	
