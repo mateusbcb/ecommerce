@@ -4,6 +4,7 @@
 		
 	use \Hcode\DB\Sql;
 	use \Hcode\Model;
+	use \Hcode\Mailler;
 
 	class User extends Model{
 		
@@ -63,7 +64,7 @@
 			
 		}
 		
-		public stat function listAll(){
+		public static function listAll(){
 			
 			$sql = new Sql();
 			
@@ -171,7 +172,7 @@
 			
 		}
 		
-		public stat function validForgotDecrypt($code){
+		public static function validForgotDecrypt($code){
 			
 			
 			$idrecovery= mcrypt_decrypt(MCRYPT_RIJMDAEL_128,  User::SECRET, base64_decode($code), MCRYPT_MODE_EGB);
