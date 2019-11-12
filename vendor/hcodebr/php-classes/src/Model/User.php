@@ -166,7 +166,7 @@
 			
 		}
 		
-		public static function getForgot($email){
+		public static function getForgot($email, $inadmin = true){
 			
 			$sql = new Sql();
 			
@@ -196,7 +196,12 @@
 				
 				$code = base64_encode(mcrypt_encrypt(MCRYPT_RIJMDAEL_128, User::SECRET, $dataRecovery['idrecovery'], MCRYPT_MODE_EGB));
 				
-				$link = "http://www.mateushop.com.br/admin/forgot/reset?code=$code";
+				if($inadmin === true){
+					$link = "http://www.mateushop.com.br/admin/forgot/reset?code=$code";
+				}else{
+					$link = "http://www.mateushop.com.br/forgot/reset?code=$code";
+				}
+				
 				
 				$mailer = new Mailler($data['desemail'], $data['desperson'], "Redefinir senha do Mateus Shop", "forgot", array(
 					"name"=>$data['desperson'],
