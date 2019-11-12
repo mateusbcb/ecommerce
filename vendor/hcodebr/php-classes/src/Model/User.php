@@ -12,6 +12,7 @@
 		const SECRET = "HcodePHP7_Secret";
 		const ERROR ="UserError";
 		const ERROR_REGISTER = "UserErrorRegister";
+		const SUCESS = "UserSucess";
 		
 		public static function getFromSession(){
 			
@@ -275,6 +276,25 @@
 		public static function clearError(){
 			
 			$_SESSION[User::ERROR] = NULL;
+		}
+		
+		public static function setSucess($msg){
+			
+			$_SESSION[User::SUCESS] = $msg;
+		}
+		
+		public static function getSucess(){
+			
+			$msg = (isset($_SESSION[User::SUCESS]) && $_SESSION[User::SUCESS]) ? $_SESSION[User::SUCESS] : '';
+			
+			User::clearSucess();
+			
+			return $msg;
+		}
+		
+		public static function clearSucess(){
+			
+			$_SESSION[User::SUCESS] = NULL;
 		}
 		
 		public static function setErrorRegister($msg){
