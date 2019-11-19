@@ -196,11 +196,12 @@
 				$dataRecovery = $results2[0];
 				
 				$code = base64_encode(mcrypt_encrypt(MCRYPT_RIJMDAEL_128, User::SECRET, $dataRecovery['idrecovery'], MCRYPT_MODE_EGB));
+				$endereco = "http://www.mateushop.com.br";
 				
 				if($inadmin === true){
-					$link = "http://www.mateushop.com.br/admin/forgot/reset?code=$code";
+					$link = "$endereco/admin/forgot/reset?code=$code";
 				}else{
-					$link = "http://www.mateushop.com.br/forgot/reset?code=$code";
+					$link = "$endereco/forgot/reset?code=$code";
 				}
 				
 				
