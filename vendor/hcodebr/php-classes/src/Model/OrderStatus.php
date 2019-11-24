@@ -10,5 +10,12 @@
        const AGUARDANDO_PAGAMENTO = 2;
        const PAGO= 3;
        const ENTREGE = 4;
+
+       public function listAll(){
+
+            $sql = new Sql();
+
+            $sql->select("SELECT * FROM tb_ordersstatus ORDER BY desstatus");
+       }
     }
 ?>
