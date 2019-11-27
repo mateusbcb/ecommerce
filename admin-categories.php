@@ -31,8 +31,6 @@
 			]);
 		}
 		
-		$categories = Category::listAll();
-		
 		$page = new PageAdmin();
 		$page->setTpl("categories", [
 			"categories"=>$pagination['data'],

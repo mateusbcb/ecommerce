@@ -54,7 +54,8 @@
 
             $sql = new Sql();
 
-            return $sql->select("SELECT * FROM tb_orders a 
+            return $sql->select("SELECT * 
+                FROM tb_orders a 
                 INNER JOIN tb_ordersstatus b USING(idstatus)
                 INNER JOIN tb_carts c USING(idcart)
                 INNER JOIN tb_user d ON d.iduser = a.iduser
@@ -118,6 +119,62 @@
 		public static function clearSucess(){
 			
 			$_SESSION[Order::SUCESS] = NULL;
+        }
+        
+        public static function getPage($page = 1, $itemsPerPage = 10){
+			
+			$start = ($page -1) * $itemsPerPage;
+			
+			$sql = new Sql();
+			
+			$results = $sql->select("SELECT SQL_CALC_FOUND_ROWS *
+				FROM tb_orders a 
+                INNER JOIN tb_ordersstatus b USING(idstatus)
+                INNER JOIN tb_carts c USING(idcart)
+                INNER JOIN tb_user d ON d.iduser = a.iduser
+                INNER JOIN tb_addresses e USING(idaddress)
+                INNER JOIN tb_persons f ON f.idperson = d.idperson
+                ORDER BY a.dtregister DESC
+				LIMIT $start, $itemsPerPage;
+			");
+			
+			$resultsTotal = $sql->select("SELECT FOUND_ROWS() AS nrtotal;");
+			
+			return [
+				"data"=>$results,
+				"total"=>(int)$resultsTotal[0]["nrtotal"],
+				"pages"=>ceil($resultsTotal[0]["nrtotal"] / $itemsPerPage)
+			];
+		}
+
+		public static function getPageSearch($search, $page = 1, $itemsPerPage = 10){
+			
+			$start = ($page -1) * $itemsPerPage;
+			
+			$sql = new Sql();
+			
+			$results = $sql->select("SELECT SQL_CALC_FOUND_ROWS *
+				FROM tb_orders a 
+                INNER JOIN tb_ordersstatus b USING(idstatus)
+                INNER JOIN tb_carts c USING(idcart)
+                INNER JOIN tb_user d ON d.iduser = a.iduser
+                INNER JOIN tb_addresses e USING(idaddress)
+                INNER JOIN tb_persons f ON f.idperson = d.idperson
+                WHERE a.idorder = :id OR f.desperson LIKE :search
+                ORDER BY a.dtregister DESC
+				LIMIT $start, $itemsPerPage;
+			",[
+                'search'=>'%'.$search.'%',
+                ':id'=>$search
+			]);
+			
+			$resultsTotal = $sql->select("SELECT FOUND_ROWS() AS nrtotal;");
+			
+			return [
+				"data"=>$results,
+				"total"=>(int)$resultsTotal[0]["nrtotal"],
+				"pages"=>ceil($resultsTotal[0]["nrtotal"] / $itemsPerPage)
+			];
 		}
     }
 ?>
